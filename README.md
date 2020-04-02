@@ -3,9 +3,62 @@ Qin Ying Chen, Erica Chou, Moira Duya
 March 31, 2020
 Databases
 
-Optional Features:
 
-Short Description: This project will have three group members working on five required features and six optional features for an app called “Finstagram”. This app will require us to allow users to share photos with either all of their followers or with a specific group. 
+
+Short Description: This project will have three group members working on five required features and six optional features for an app called “Finstagram” using Python/Flask. This app will require us to allow users to share photos with either all of their followers or with a specific group. 
+
+These are the required features for our project:
+
+1) View visible photos: Finstagram shows the user the photoID of each photo that is
+visible to her, arranged in reverse chronological order.
+
+2) View further photo info:
+Display the following for visible photos (You may include this with the results of “view
+visible photos” or you may supply a different way for users to see this additional info,
+such as clicking on additional links).
+  a) Display the photo or include a link to display it. (If you have trouble actually
+displaying the photo, just display the photo’s pID for close to total credit for this
+part).
+  b) The firstName and lastName of the photoPoster
+  c) The postingDate,
+  d) the usernames, first names and last names of people who have been tagged in
+the photo (taggees), provided that they have accepted the tags
+(Tag.acceptedTag == true)
+  e) The usernames of people who have ReactedTo the photo and the emoji and/or
+comment they gave it
+
+3) Post a photo:
+Finstagram prompts the User to enter
+
+  a) the location of a photo on the client computer,
+  b) a designation of whether the photo is visible to all followers (allFollowers == true)
+or only to members of designated FriendGroups (allFollowers == false).
+In response to the data submitted by the user, Finstagram
+  c) inserts data about the photo (including current time*, and the current user as
+photoPoster) and the value of allFollowers into the Photo table. *Finstagram can
+find the current time with an SQL function or a function in the host language.
+  d) either copies the photo to a dedicated folder with file name that includes the pID
+and stores this location as the filePath or it stores the photo as a BLOB datatype.
+(More details will be provided on how to do this).
+  e) gives the user a way to designate FriendGroups that the user belongs to with
+which the Photo is shared.
+
+4) Manage Follows:
+  a) User enters the username of someone they want to follow. Finstagram adds an
+appropriate tuple to Follow, with acceptedFollow == False.
+  b) Finstagram displays list of requests others have made to follow the current user
+and the user has the opportunity to accept, by setting acceptFollow to True or to
+decline by deleting the request from the Follow table.
+
+5) Add friendGroup:
+  a) User provides a name for the friendGroup.
+  b) Finstagram creates the group with current user as the groupOwner, provided that
+they don’t already own a group with this name. Finstagram gives a meaningful
+error message if the current user already has a group with this name.
+  c) If the group is created successfully, Finstagram adds the current user as a
+member of the group.
+
+
 Because our group has three people, we have chosen these six features to add in to our app for Project 4:
 
 Qin Ying Chen:
