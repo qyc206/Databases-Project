@@ -9,6 +9,7 @@ Short Description: This project will have three group members working on five re
 Because our group has three people, we have chosen these six features to add in to our app for Project 4:
 
 Qin Ying Chen:
+(Counts for two):
 Manage tags: 
 Current user, whom we’ll call x, selects a photo that is visible to her and proposes to tag it with username y (1) If the user is self-tagging (y == x), Finstagram adds a row to the Tag table: (x, photoID, true) (2) else if the photo is visible to y, Finstagram adds a row to the 
 Tag table: (y, photoID, false) (3) else if photo is not visible to y, Finstagram doesn’t change the tag table and prints some message saying that she cannot propose this tag. 
@@ -16,12 +17,12 @@ Finstagram shows the user relevant data about photos that have proposed tags of 
 
 Erica Chou:
 
-React to a photo: Users can add comments and/or emojis to photos that are visible to them. 
+1)React to a photo: Users can add comments and/or emojis to photos that are visible to them. 
 
-Unfollow: Think about what should be done when someone is unfollowed, including some reasonable approach to tags that they posted by virtue of being a follower. Write a short summary of how you’re handling this situation. Implement it and test it.
+2)Unfollow: Think about what should be done when someone is unfollowed, including some reasonable approach to tags that they posted by virtue of being a follower. Write a short summary of how you’re handling this situation. Implement it and test it.
 
 Moira Duya:
 
-Search by tag:Search for photos that are visible to the user and that tag some particular person (the user or someone else ) 
+1)Search by tag:Search for photos that are visible to the user and that tag some particular person (the user or someone else ) 
 
-Search by poster:Search for photos that are visible to the user and that were posted by some particular person (the user or someone else )
+2)Search by poster:Search for photos that are visible to the user and that were posted by some particular person (the user or someone else )
