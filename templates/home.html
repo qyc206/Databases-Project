@@ -1,0 +1,145 @@
+<html>
+<head>
+</head>
+<body>
+<form action="/post" method="POST" enctype="multipart/form-data">
+	<h1>Welcome {{username}}</h1> 
+
+
+	<p>POST SOMETHING! :D</p>
+
+	<!-- Prompt user for image file -->
+	<label for="avatar">Choose a profile picture (JPEG/JPG/PNG):</label>
+	<input type="file"
+       id="avatar" name="filePath_img"
+	   accept="image/png, image/jpeg, image/jpg"></br>
+	   
+	<input type="text" name = "caption" placeholder="Enter a caption"/> </br>
+	
+
+
+	<p>Pick who you want to be able to view your photo:</p>
+
+	<input id="followers" type="radio" name="allFollowers_temp" value="followers">
+		<label for="followers">All followers</label></input><br>
+	<input id="members" type="radio" name="allFollowers_temp" value="members">
+		<label for="members">Members of designated friend groups</label></input><br>
+
+
+
+	<p>Select which friend group you would like to share your photo with:</p>
+
+	<label for="groups">Choose friend group(s):</label><br><br>
+	<select id="groups" name="groups" multiple>
+		{% for group in groups %}
+			<option value={{group.groupName}}>{{group.groupName}}</option>
+		{% endfor %}
+	</select>
+
+	<p>Hold down the Ctrl (windows) or Command (Mac) button to select multiple options.
+	
+	<br><br>
+	<input type="submit" value = Post />
+</form>
+
+<br>
+
+<form action="/makeGroup" method="POST" enctype="multipart/form-data">
+	<p>CREATE A GROUP!</p>
+
+	<label for="groupName">Group Name:</label><br>
+	<input type="text" name="groupName" placeholder="Enter group name" required/> <br><br>
+	<label id="groupName" for="description">Group Description:</label><br>
+	<textarea id="description" name="description" rows="4" cols="50" placeholder="Enter description"></textarea></br>
+
+	<br>
+	<input type="submit" value = 'Make Group' />
+
+	{% if error %}
+		<p class="error"><strong>Error:</strong> {{error}}</p>
+	{% endif %}
+</form>
+
+<br>
+
+<style type="text/css">
+	table, th, td{
+		border: 1px solid black;
+	}
+</style> 
+
+<p>YOUR POSTS:</p>
+
+<table>
+	<th>pID</th>
+	<th>ImagePath</th>
+	<th>Caption</th>
+	<th>Posting Date</th>
+	<th>Who Can View</th>
+
+{% for line in posts %}
+	<tr>
+		<td>{{line.pID}}</td>
+		<td>{{line.filePath}}</td>
+		<td>{{line.caption}}</td>
+		<td>{{line.postingDate}}</td>
+		<td>
+			{% if line.allFollowers == 1 %} 
+				<p>Visible to all followers</p>
+			{% else %}
+				<p>Visible to members of designated friend groups</p>
+			{% endif %}
+		</td>
+	</tr>
+{% endfor %}
+</table>
+
+
+
+<p>YOUR GROUPS:</p>
+
+<table>
+	<th>Group Name</th>
+	<th>Description of group</th>
+
+{% for group in groups %}
+	<tr>
+		<td>
+			{{group.groupName}}
+		</td>
+		<td>
+			{{group.description}}
+		</td>
+	</tr>
+{% endfor %}
+</table>
+
+
+
+<p>GROUPS YOU ARE IN:</p>
+
+<table>
+	<th>Group Name</th>
+	<th>Creator of Group</th>
+
+{% for group in belongsToGroup %}
+	<tr>
+		<td>
+			{{group.groupName}}
+		</td>
+		<td>
+			{{group.groupCreator}}
+		</td>
+	</tr>
+{% endfor %}
+</table>
+
+
+
+<br>
+<a href="/logout">Logout</a>
+
+</body>
+
+
+</html>
