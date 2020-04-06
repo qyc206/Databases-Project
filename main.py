@@ -1,6 +1,9 @@
 import datetime
 import os
 
+import mysql.connector
+from mysql.connector import Error
+
 #Import Flask Library
 from flask import Flask, render_template, request, session, url_for, redirect, flash, send_from_directory
 from werkzeug.utils import secure_filename
@@ -121,26 +124,34 @@ def home(error = ''):
         return render_template('home.html', username=username, posts=data, groups=groups, belongsToGroup=groups2)
     else:
         return render_template('home.html', username=username, posts=data, groups=groups, belongsToGroup=groups2, error=error)
-    
+
+# Create and return filename path
 @app.route('/uploads/<filename>')
-def uploaded_file(filename, pID):
+def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
+# To check if filename is of appropriate type
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-           
+
+# Convert digital data to binary format (used for BLOB)
+def convertToBinaryData(filename):
+    with open(filename, 'rb') as file:
+        binaryData = file.read()
+    return binaryData
+
 def share_with_groups(filePath, caption, poster, groupNames):
     cursor = conn.cursor()
 
-    query = 'SELECT pID FROM Photo WHERE caption = %s and poster = %s and filePath = %s'
-    cursor.execute(query, (caption, poster, filePath))
-    pID = cursor.fetchone()
+    query = 'SELECT LAST_INSERT_ID()'
+    cursor.execute(query)
+    pID = cursor.fetchone();
 
     for group in groupNames:
         # inserting to sharedWith
         ins2 = 'INSERT INTO SharedWith (pID, groupName, groupCreator) VALUES(%s, %s, %s)'
-        cursor.execute(ins2, (pID['pID'], group, poster))
+        cursor.execute(ins2, (pID['LAST_INSERT_ID()'], group, poster))
         conn.commit()
     
     cursor.close()
@@ -165,7 +176,10 @@ def post():
             filename = secure_filename(filePath.filename)
             filePath.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             filePath = url_for('uploaded_file', filename=filename)
-            
+        
+        # filePathDB = filePath.read()
+        # filePathDB = convertToBinaryData(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
         caption = request.form['caption']
         allFollowers_temp = request.form['allFollowers_temp']
 
@@ -182,6 +196,19 @@ def post():
         ins = 'INSERT INTO Photo (filePath, postingDate, allFollowers, caption, poster) VALUES(%s, %s, %s, %s, %s)'
         cursor.execute(ins, (filePath, postingDate, allFollowers, caption, poster))
         conn.commit()
+
+
+        # try:
+        #     cursor = conn.cursor()
+        #     # ins = 'INSERT INTO Photo (filePath, postingDate, allFollowers, caption, poster) VALUES(%s, %s, %s, %s, %s)'
+        #     # cursor.execute(ins, (filePath, postingDate, allFollowers, caption, poster))
+        #     ins = 'INSERT INTO Photo (filePath, postingDate, allFollowers, caption, poster) VALUES(%s, %s, %s, %s, %s)'
+        #     insert_blob_tuple = (filePath, postingDate, allFollowers, caption, poster)
+        #     cursor.execute(ins, insert_blob_tuple)
+        #     conn.commit()
+        # except mysql.connector.Error as error:
+        #     print("Failed inserting BLOB data into MySQL table {}".format(error))
+
 
         if (allFollowers == 0):
             share_with_groups(filePath, caption, poster, groupNames)

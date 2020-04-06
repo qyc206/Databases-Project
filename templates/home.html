@@ -32,11 +32,12 @@
 	<label for="groups">Choose friend group(s):</label><br><br>
 	<select id="groups" name="groups" multiple>
 		{% for group in groups %}
-			<option value={{group.groupName}}>{{group.groupName}}</option>
+			<option type="button" value="{{group.groupName}}">{{group.groupName}}</option>
 		{% endfor %}
 	</select>
 
 	<p>Hold down the Ctrl (windows) or Command (Mac) button to select multiple options.
+	
 	
 	<br><br>
 	<input type="submit" value = Post />
@@ -47,7 +48,7 @@
 <form action="/makeGroup" method="POST" enctype="multipart/form-data">
 	<p>CREATE A GROUP!</p>
 
-	<label for="groupName">Group Name:</label><br>
+	<label for="groupName">Group Name (DON'T SUPPORT SPACE CHAR CURRENTLY!!):</label><br>
 	<input type="text" name="groupName" placeholder="Enter group name" required/> <br><br>
 	<label id="groupName" for="description">Group Description:</label><br>
 	<textarea id="description" name="description" rows="4" cols="50" placeholder="Enter description"></textarea></br>
