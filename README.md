@@ -3,7 +3,7 @@ Qin Ying Chen, Erica Chou, Moira Duya
 March 31, 2020
 Databases
 
-
+*screenshots in the PDF*
 
 Short Description: This project will have three group members working on five required features and six optional features for an app called “Finstagram” using Python/Flask. This app will require us to allow users to share photos with either all of their followers or with a specific group. 
 
