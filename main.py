@@ -107,7 +107,7 @@ def registerAuth():
         return render_template('index.html')
 
 # Define a route to home
-@app.route('/home')
+@app.route('/home') 
 def home(error = ''): 
     username = session['username']
     cursor = conn.cursor()
